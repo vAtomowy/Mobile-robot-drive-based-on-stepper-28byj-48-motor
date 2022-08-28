@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		}
+	],
+	"settings": {
+		"cortex-debug.openocdPath": "C:/OpenOCD/bin",
+		"files.associations": {
+			"drives.h": "c",
+			"timers.h": "c",
+			"stdio.h": "c",
+			"circ_buffer.h": "c"
+		}
+	}
+}
