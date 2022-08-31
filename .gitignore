@@ -1,0 +1,22 @@
+# My git template - A.Bereit 
+
+# Ignore the node_modules directory
+
+# Ignore Logs
+
+# Ignore the build directory
+/out
+
+# The file containing environment variables 
+.env
+
+# Ignore IDE specific files
+.vscode/
+
+# Documentation  
+/doc/diag_1.drawio
+/doc/diag_1bmp.drawio.svg
+/doc/diag_1bmp.png
+/doc/diag_1bmp.jpg
+
+# Others

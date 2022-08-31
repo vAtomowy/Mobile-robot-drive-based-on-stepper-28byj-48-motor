@@ -14,6 +14,7 @@
 #include "timers.h" 
 #include "uart.h"
 #include "circ_buffer.h"
+#include "parse.h"
 
 
 // PICO led pin 
@@ -63,23 +64,26 @@ void Drives_Tasks(void){
     DrivesTask(&axis_R);
 }
 
-
-// TODO: Zrobić parsowanie !!! ------------------------------------------------------> 
 void Load_Buffer(char ch)
 { 
     CircBufferPut(&UartRecBuff, ch);
+    // in incoming data detect \n -> 
+    // start Parse_data
     if(ch == '\n')
     { 
         Lazy_Parse_Data();
     }
 }
+
+
+// TODO: Zrobić parsowanie !!! ------------------------------------------------------> 
 void Lazy_Parse_Data(void)
 { 
     char rcv_data;
     char tab[32] = {0};
     char value[32] = {' '};
     uint inx = 0; 
-    int size =0;
+    int size = 0;
     do{ 
         int ex = CircBufferGet(&UartRecBuff, &rcv_data);
         tab[inx] = rcv_data;

@@ -4,6 +4,7 @@ add_executable(blink
         timers.c
         uart.c
         circ_buffer.c
+        parse.c
         )
 
 # pull in common dependencies
