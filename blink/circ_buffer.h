@@ -1,5 +1,5 @@
 
-#define BUF_SIZE 32
+#define BUF_SIZE 128
 
 typedef struct {
     uint8_t head;
