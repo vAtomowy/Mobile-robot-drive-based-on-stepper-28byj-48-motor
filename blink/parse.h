@@ -1,12 +1,13 @@
 
 typedef enum
-{ 
-   E01 = 1, 
-   E02, 
-   E03,
+{  
+   EOK = 0,
+   E01,         // too long information 
+   E02,         // bad header "drv_" on front side string  
+   E03,         // bad value for first argument 
    E04,
    E05
 
 }PARSE_ERRORS;
 
-void ParseData(void);
+PARSE_ERRORS ParseData(CIRC_BUFF *circ_buf);

@@ -47,23 +47,25 @@ int main() {
     
     InitTimer(&drive_timer, 50); // time in ms
 
-    InitStepper(&axis_L, 13, 12, 11, 10, 0); 
-    InitStepper(&axis_R, 2, 3, 4, 5, 0); 
+    InitStepper(&axis_L, 10, 11, 12, 13, 0); 
+    InitStepper(&axis_R, 5, 4, 3, 2, 0); 
 
     InitUart();
 
     while (true) 
     {
-        tight_loop_contents();
+        //tight_loop_contents();
     }
 
 }
 
+// Drives Tasks
 void Drives_Tasks(void){ 
     DrivesTask(&axis_L);
     DrivesTask(&axis_R);
 }
 
+//callback from receive UART
 void Load_Buffer(char ch)
 { 
     CircBufferPut(&UartRecBuff, ch);
@@ -71,7 +73,11 @@ void Load_Buffer(char ch)
     // start Parse_data
     if(ch == '\n')
     { 
-        Lazy_Parse_Data();
+        uint error = ParseData(&UartRecBuff);
+        if(error =! EOK){ 
+            //UartPuts("Error:\n\r");
+            //UartPutc(error);
+        }
     }
 }
 
