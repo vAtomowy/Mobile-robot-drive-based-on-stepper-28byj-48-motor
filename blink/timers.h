@@ -12,3 +12,4 @@ typedef struct timer_struct
 void InitTimer(TIMER* t, int loop_time);
 void TimerCallback(TIMER *t);
 void TimerRegisterCallback(TIMER* t, void* Callback);
+void SetTimerTime(TIMER* t, int loop_time);

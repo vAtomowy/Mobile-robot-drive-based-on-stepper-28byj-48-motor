@@ -14,16 +14,22 @@ typedef enum {
   SAFETY 
 } DRIVE_STATE;
 
+typedef enum { 
+    FORWARD = 0,
+    BACKWARD,
+} DRIVE_DIR;
+
 typedef struct {
   DIV_STEP step;
   DRIVE_STATE state;
+  DRIVE_DIR dir;
   float velocity;
   float one_fullstep;
   float one_halfstep;
   float error;
   float threshold_pose;
   float ref_pose;
-  float pose; 
+  float pose;  
   int Pin1;
   int Pin2;
   int Pin3;
@@ -38,6 +44,8 @@ void SetVel(DRIVE*drive_struct, float velocity);
 void SetPose(DRIVE*drive_struct, float ref_pose);
 int GetVel(DRIVE*drive_struct); 
 int GetPose(DRIVE*drive_struct); 
+void SetDir(DRIVE*drive_struct, DRIVE_DIR direction);
+DRIVE_DIR GetDir(DRIVE*drive_struct);
 
 void DrivesTask(DRIVE*drive_struct); 
 

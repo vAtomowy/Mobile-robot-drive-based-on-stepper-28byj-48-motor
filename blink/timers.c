@@ -25,4 +25,8 @@ void TimerRegisterCallback(TIMER* t, void* Callback)
 	t->TimerInterrupt = Callback;
 }
 
+void SetTimerTime(TIMER* t, int loop_time){ 
+    t->tm.delay_us = loop_time*1000;
+}
+
 

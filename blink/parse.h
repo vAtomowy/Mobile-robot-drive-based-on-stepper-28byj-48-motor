@@ -10,4 +10,4 @@ typedef enum
 
 }PARSE_ERRORS;
 
-PARSE_ERRORS ParseData(CIRC_BUFF *circ_buf);
+PARSE_ERRORS ParseData(CIRC_BUFF *circ_buf, DRIVE*drv_1, DRIVE*drv_2);
