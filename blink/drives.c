@@ -125,8 +125,8 @@ void DrivesTask(DRIVE*drive_struct){
             } 
 
         }
-        sprintf(buf, "ident:%d, akt:krok:%f ref:krok:%f \n\r",drive_struct->Pin1, drive_struct->pose, drive_struct->ref_pose);
-        UartPuts(buf);
+        // sprintf(buf, "ident:%d, akt:krok:%f ref:krok:%f \n\r",drive_struct->Pin1, drive_struct->pose, drive_struct->ref_pose);
+        // UartPuts(buf);
     }
 
 }

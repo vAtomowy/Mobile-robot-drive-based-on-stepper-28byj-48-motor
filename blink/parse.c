@@ -59,49 +59,75 @@ PARSE_ERRORS ParseData(CIRC_BUFF *circ_buf, DRIVE*drv_1, DRIVE*drv_2)
                 if(strcmp("1", ParsePtr3) == 0)
                 { 
                     char *ParsePtr4 = strtok(NULL, "\n");
-                    val = atof(ParsePtr4);
-                    
-                    if(strcmp("POS", ParsePtr2) == 0)
-                    {
-                        if(val < 0){ SetDir(drv_1, BACKWARD); }
-                        else{ SetDir(drv_1, FORWARD); }
-                        SetPose(drv_1, val);
-                        //UartPuts("POSE_1 IS SETTING !\n\r"); 
-                        UartPuts("OK\n\r");
-                    }
-                    else if(strcmp("VEL", ParsePtr2) == 0)                   
-                    {
-                        SetVel(drv_1, val);
-                        time_drive_L = (uint)(val);
-                        // sprintf(buf,"%d",time_drive_L);
-                        // UartPuts(buf);
-                        UartPuts("OK\n\r");
-                    }
 
+                    if(strcmp("?", ParsePtr2) != 0)
+                    {
+                        val = atof(ParsePtr4);
+                        if(strcmp("POS", ParsePtr2) == 0)
+                        {
+                            if(val < 0){ SetDir(drv_1, BACKWARD); }
+                            else{ SetDir(drv_1, FORWARD); }
+                            SetPose(drv_1, val);
+                            //UartPuts("POSE_1 IS SETTING !\n\r"); 
+                            UartPuts("OK\n\r");
+                        }
+                        else if(strcmp("VEL", ParsePtr2) == 0)                   
+                        {
+                            SetVel(drv_1, val);
+                            time_drive_L = (uint)(val);
+                            // sprintf(buf,"%d",time_drive_L);
+                            // UartPuts(buf);
+                            UartPuts("OK\n\r");
+                        }
+                    }
+                    else 
+                    { 
+                        if(strcmp("POS", ParsePtr2) == 0)
+                        {
+                            UartPuts(GetPose(drv_1));
+                        }
+                        else if(strcmp("VEL", ParsePtr2) == 0)                   
+                        {
+                            UartPuts(GetVel(drv_1));
+                        }
+                    }
                     return EOK;
 
                 }
+
                 else if(strcmp("2", ParsePtr3) == 0)
                 { 
                     char *ParsePtr4 = strtok(NULL, "\n");
-                    val = atof(ParsePtr4);
 
-                    if(strcmp("POS", ParsePtr2) == 0)
-                    {
-                        if(val < 0){ SetDir(drv_2, BACKWARD); }
-                        else{ SetDir(drv_2, FORWARD); }
-                        SetPose(drv_2, val);
-                        UartPuts("OK\n\r");
-                        // UartPuts("POSE_2 IS SETTING !\n\r");
-                    }
-                    else if(strcmp("VEL", ParsePtr2) == 0)                   
-                    {
-                        SetVel(drv_2, val);
-                        time_drive_R = (uint)(val);
-                        UartPuts("OK\n\r");
-                        // UartPuts("VELOCITY_2 IS SETTING !\n\r");
-                    }
+                    if(strcmp("?", ParsePtr2) != 0)
+                    {                    
+                        val = atof(ParsePtr4);
 
+                        if(strcmp("POS", ParsePtr2) == 0)
+                        {
+                            if(val < 0){ SetDir(drv_2, BACKWARD); }
+                            else{ SetDir(drv_2, FORWARD); }
+                            SetPose(drv_2, val);
+                            UartPuts("OK\n\r");
+                        }
+                        else if(strcmp("VEL", ParsePtr2) == 0)                   
+                        {
+                            SetVel(drv_2, val);
+                            time_drive_R = (uint)(val);
+                            UartPuts("OK\n\r");
+                        }
+                    } 
+                    else 
+                    { 
+                        if(strcmp("POS", ParsePtr2) == 0)
+                        {
+                            UartPuts(GetPose(drv_2));
+                        }
+                        else if(strcmp("VEL", ParsePtr2) == 0)                   
+                        {
+                            UartPuts(GetVel(drv_2));
+                        }
+                    }
                     return EOK;
                 } 
                 else 
