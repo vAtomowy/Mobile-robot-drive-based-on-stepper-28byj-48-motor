@@ -23,7 +23,8 @@ PARSE_ERRORS ParseData(CIRC_BUFF *circ_buf, DRIVE*drv_1, DRIVE*drv_2)
     uint inx = 0; 
     int size = 0;
     float val = 0;
-    char buf[10];
+    char buf[20];
+    char bf1[10] = "";
     do{ 
         int ex = CircBufferGet(circ_buf, &rcv_data);
         tab[inx] = rcv_data;
@@ -59,8 +60,7 @@ PARSE_ERRORS ParseData(CIRC_BUFF *circ_buf, DRIVE*drv_1, DRIVE*drv_2)
                 if(strcmp("1", ParsePtr3) == 0)
                 { 
                     char *ParsePtr4 = strtok(NULL, "\n");
-
-                    if(strcmp("?", ParsePtr2) != 0)
+                    if(strcmp("?", ParsePtr4) != 0)
                     {
                         val = atof(ParsePtr4);
                         if(strcmp("POS", ParsePtr2) == 0)
@@ -68,15 +68,12 @@ PARSE_ERRORS ParseData(CIRC_BUFF *circ_buf, DRIVE*drv_1, DRIVE*drv_2)
                             if(val < 0){ SetDir(drv_1, BACKWARD); }
                             else{ SetDir(drv_1, FORWARD); }
                             SetPose(drv_1, val);
-                            //UartPuts("POSE_1 IS SETTING !\n\r"); 
                             UartPuts("OK\n\r");
                         }
                         else if(strcmp("VEL", ParsePtr2) == 0)                   
                         {
                             SetVel(drv_1, val);
                             time_drive_L = (uint)(val);
-                            // sprintf(buf,"%d",time_drive_L);
-                            // UartPuts(buf);
                             UartPuts("OK\n\r");
                         }
                     }
@@ -84,11 +81,15 @@ PARSE_ERRORS ParseData(CIRC_BUFF *circ_buf, DRIVE*drv_1, DRIVE*drv_2)
                     { 
                         if(strcmp("POS", ParsePtr2) == 0)
                         {
-                            UartPuts(GetPose(drv_1));
+                            bf1[10] = "";
+                            sprintf(bf1, "%d\r\n", GetPose(drv_1));
+                            UartPuts(bf1);
                         }
                         else if(strcmp("VEL", ParsePtr2) == 0)                   
                         {
-                            UartPuts(GetVel(drv_1));
+                            bf1[10] = "";
+                            sprintf(bf1, "%d\r\n", GetVel(drv_1));
+                            UartPuts(bf1);
                         }
                     }
                     return EOK;
@@ -99,7 +100,7 @@ PARSE_ERRORS ParseData(CIRC_BUFF *circ_buf, DRIVE*drv_1, DRIVE*drv_2)
                 { 
                     char *ParsePtr4 = strtok(NULL, "\n");
 
-                    if(strcmp("?", ParsePtr2) != 0)
+                    if(strcmp("?", ParsePtr4) != 0)
                     {                    
                         val = atof(ParsePtr4);
 
@@ -121,11 +122,15 @@ PARSE_ERRORS ParseData(CIRC_BUFF *circ_buf, DRIVE*drv_1, DRIVE*drv_2)
                     { 
                         if(strcmp("POS", ParsePtr2) == 0)
                         {
-                            UartPuts(GetPose(drv_2));
+                            bf1[10] = "";
+                            sprintf(bf1, "%d\r\n", GetPose(drv_2));
+                            UartPuts(bf1);
                         }
                         else if(strcmp("VEL", ParsePtr2) == 0)                   
                         {
-                            UartPuts(GetVel(drv_2));
+                            bf1[10] = "";
+                            sprintf(bf1, "%d\r\n", GetVel(drv_2));
+                            UartPuts(bf1);
                         }
                     }
                     return EOK;
