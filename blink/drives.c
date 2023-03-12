@@ -136,6 +136,8 @@ void DrivesTask(DRIVE*drive_struct){
         else
         { 
             SetBusy(drive_struct,0); // Now, I'm free   
+            drive_struct->ref_pose = 0.0f; 
+            drive_struct->pose = 0.0f;
         }
         // Debug commands
         // sprintf(buf, "ident:%d, akt:krok:%f ref:krok:%f \n\r",drive_struct->Pin1, drive_struct->pose, drive_struct->ref_pose);
