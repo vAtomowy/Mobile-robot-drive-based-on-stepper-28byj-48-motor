@@ -24,6 +24,7 @@ typedef struct {
   DRIVE_STATE state;
   DRIVE_DIR dir;
   float velocity;
+  int busy;
   float one_fullstep;
   float one_halfstep;
   float error;
@@ -46,6 +47,8 @@ int GetVel(DRIVE*drive_struct);
 int GetPose(DRIVE*drive_struct); 
 void SetDir(DRIVE*drive_struct, DRIVE_DIR direction);
 DRIVE_DIR GetDir(DRIVE*drive_struct);
+int GetBusy(DRIVE*drive_struct);
+static void SetBusy(DRIVE*drive_struct, int busy);
 
 void DrivesTask(DRIVE*drive_struct); 
 

@@ -25,6 +25,7 @@ PARSE_ERRORS ParseData(CIRC_BUFF *circ_buf, DRIVE*drv_1, DRIVE*drv_2)
     float val = 0;
     char buf[20];
     char bf1[10] = "";
+
     do{ 
         int ex = CircBufferGet(circ_buf, &rcv_data);
         tab[inx] = rcv_data;
@@ -65,6 +66,11 @@ PARSE_ERRORS ParseData(CIRC_BUFF *circ_buf, DRIVE*drv_1, DRIVE*drv_2)
                         val = atof(ParsePtr4);
                         if(strcmp("POS", ParsePtr2) == 0)
                         {
+                            if(drv_1->busy == 1)
+                            { 
+                                UartPuts("E00 - drive is busy !\n\r");
+                                return EOK;
+                            }
                             if(val < 0){ SetDir(drv_1, BACKWARD); }
                             else{ SetDir(drv_1, FORWARD); }
                             SetPose(drv_1, val);
@@ -81,6 +87,11 @@ PARSE_ERRORS ParseData(CIRC_BUFF *circ_buf, DRIVE*drv_1, DRIVE*drv_2)
                     { 
                         if(strcmp("POS", ParsePtr2) == 0)
                         {
+                            if(drv_1->busy == 1)
+                            { 
+                                UartPuts("E00 - drive is busy !\n\r");
+                                return EOK;
+                            }
                             bf1[10] = "";
                             sprintf(bf1, "%d\r\n", GetPose(drv_1));
                             UartPuts(bf1);
@@ -106,6 +117,11 @@ PARSE_ERRORS ParseData(CIRC_BUFF *circ_buf, DRIVE*drv_1, DRIVE*drv_2)
 
                         if(strcmp("POS", ParsePtr2) == 0)
                         {
+                            if(drv_2->busy == 1)
+                            { 
+                                UartPuts("E00 - drive is busy !\n\r");
+                                return EOK;
+                            }
                             if(val < 0){ SetDir(drv_2, BACKWARD); }
                             else{ SetDir(drv_2, FORWARD); }
                             SetPose(drv_2, val);
@@ -122,6 +138,11 @@ PARSE_ERRORS ParseData(CIRC_BUFF *circ_buf, DRIVE*drv_1, DRIVE*drv_2)
                     { 
                         if(strcmp("POS", ParsePtr2) == 0)
                         {
+                            if(drv_2->busy == 1)
+                            { 
+                                UartPuts("E00 - drive is busy !\n\r");
+                                return EOK;
+                            }
                             bf1[10] = "";
                             sprintf(bf1, "%d\r\n", GetPose(drv_2));
                             UartPuts(bf1);
@@ -183,34 +204,34 @@ PARSE_ERRORS ParseData(CIRC_BUFF *circ_buf, DRIVE*drv_1, DRIVE*drv_2)
             }
             else if((strcmp("SAFETY_STOP\n", ParsePtr2) == 0))
             { 
-               SetState(drv_1, SAFETY);
-               SetState(drv_2, SAFETY);
-               UartPuts("OK\n\r");
-               while(1){
-               gpio_put(PICO_DEFAULT_LED_PIN, 1);
-               sleep_ms(100);
-               gpio_put(PICO_DEFAULT_LED_PIN, 0);
-               sleep_ms(300);
-               }; // Ha ! pulapka skurczybyki !
-               // UartPuts("SETTING STATE -> SAFETY_STOP\n\r");
-               // UartPuts("TURN OFF DRIVES -> GO RESET -> AND REBOOT DEVICE !!!\n\r");
-               return EOK;
+            SetState(drv_1, SAFETY);
+            SetState(drv_2, SAFETY);
+            UartPuts("OK\n\r");
+            while(1){
+            gpio_put(PICO_DEFAULT_LED_PIN, 1);
+            sleep_ms(100);
+            gpio_put(PICO_DEFAULT_LED_PIN, 0);
+            sleep_ms(300);
+            }; // Ha ! pulapka skurczybyki !
+            // UartPuts("SETTING STATE -> SAFETY_STOP\n\r");
+            // UartPuts("TURN OFF DRIVES -> GO RESET -> AND REBOOT DEVICE !!!\n\r");
+            return EOK;
             }
             else if((strcmp("FSTEP\n", ParsePtr2) == 0))
             { 
-               SetDivStep(drv_1, FULLSTEP);
-               SetDivStep(drv_2, FULLSTEP);
-               UartPuts("OK\n\r");
-               // UartPuts("SETTING DIVISION STEP -> FULLSTEP\n\r");
-               return EOK;
+            SetDivStep(drv_1, FULLSTEP);
+            SetDivStep(drv_2, FULLSTEP);
+            UartPuts("OK\n\r");
+            // UartPuts("SETTING DIVISION STEP -> FULLSTEP\n\r");
+            return EOK;
             }
             else if((strcmp("HSTEP\n", ParsePtr2) == 0))
             { 
-               SetDivStep(drv_1, HALFSTEP);
-               SetDivStep(drv_2, HALFSTEP);
-               UartPuts("OK\n\r");
-               // UartPuts("SETTING DIVISION STEP -> HALFSTEP\n\r");
-               return EOK;
+            SetDivStep(drv_1, HALFSTEP);
+            SetDivStep(drv_2, HALFSTEP);
+            UartPuts("OK\n\r");
+            // UartPuts("SETTING DIVISION STEP -> HALFSTEP\n\r");
+            return EOK;
             }
             // BOTH DRIVERS COMMANDS -----------------------------END-----------------> 
 
@@ -220,5 +241,4 @@ PARSE_ERRORS ParseData(CIRC_BUFF *circ_buf, DRIVE*drv_1, DRIVE*drv_2)
             }   
         }
     } 
-
 }

@@ -18,6 +18,7 @@ void InitStepper(DRIVE*drive_struct, int Pin_1, int Pin_2, int Pin_3, int Pin_4,
     drive_struct->ref_pose = 0;
     drive_struct->velocity = vel; 
     drive_struct->error = 10;
+    drive_struct->busy = 0;
     drive_struct->state = STOP;
     drive_struct->step = HALFSTEP; 
     drive_struct->dir = FORWARD;
@@ -71,6 +72,14 @@ int GetPose(DRIVE*drive_struct){
     return drive_struct->ref_pose;
 }
 
+int GetBusy(DRIVE*drive_struct){ 
+    return drive_struct->busy;
+}
+
+static void SetBusy(DRIVE*drive_struct, int busy){ 
+    drive_struct->busy = busy; 
+}
+
 
 // Private:
 void DrivesTask(DRIVE*drive_struct){
@@ -79,8 +88,8 @@ void DrivesTask(DRIVE*drive_struct){
     if(drive_struct->state == RUN)
     {   // i jeśli pozycja poza zakresem zadanym 
         if(! ((((drive_struct->ref_pose)-(drive_struct->threshold_pose)) <= (drive_struct->pose)) && (((drive_struct->ref_pose)+(drive_struct->threshold_pose)) >= (drive_struct->pose))) )
-        {   
-
+        {
+            SetBusy(drive_struct,1); // Now, I'm busy    
             if(GetDir(drive_struct) == FORWARD){
                 // to dokonaj ruchu dla osi 
                 if((phase_sequence[actual_step] & 0x08) > 0) { gpio_put(drive_struct->Pin1, 1); } else { gpio_put(drive_struct->Pin1, 0); };
@@ -125,6 +134,11 @@ void DrivesTask(DRIVE*drive_struct){
             } 
 
         }
+        else
+        { 
+            SetBusy(drive_struct,0); // Now, I'm free   
+        }
+        // Debug commands
         // sprintf(buf, "ident:%d, akt:krok:%f ref:krok:%f \n\r",drive_struct->Pin1, drive_struct->pose, drive_struct->ref_pose);
         // UartPuts(buf);
     }

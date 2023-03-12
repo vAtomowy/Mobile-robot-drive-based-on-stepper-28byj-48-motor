@@ -16,8 +16,8 @@
 #include "parse.h"
 
 // loop time - velocity 
-uint time_drive_L = 100;
-uint time_drive_R = 100;
+uint time_drive_L = 3;
+uint time_drive_R = 3;
 
 // PICO led pin 
 uint LED_PIN = PICO_DEFAULT_LED_PIN;
@@ -64,7 +64,7 @@ int main() {
 
     while (true) 
     {
-        //tight_loop_contents();
+        tight_loop_contents();
     }
 
 }
