@@ -132,7 +132,6 @@ void DrivesTask(DRIVE*drive_struct){
                 if(actual_step > 7) actual_step = 0; 
             
             } 
-
         }
         else
         { 
